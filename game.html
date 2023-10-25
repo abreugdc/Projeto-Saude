@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto Slab"
+      rel="stylesheet"
+    />
+    <style>
+      /* Estilos CSS para o plano de fundo */
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("../images/cenário.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      /* Estilos para o grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        height: 720px;
+        width: 1080px;
+      }
+
+      /* Estilos para as colunas 1 e 2 */
+      .col1 {
+        grid-column: span 1; /* Cada coluna ocupa uma fração do espaço disponível */
+        grid-row: span 1; /* Cada coluna terá 9 linhas */
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* Cor de fundo para as colunas 1 e 2 */
+      }
+
+      /* Estilos para a coluna 3 */
+      .col2-part1 {
+        grid-column: span 1; /* A primeira parte da coluna 2 ocupa uma fração do espaço disponível */
+        grid-row: span 1; /* A primeira parte da coluna 2 terá 2 linhas */
+        background-color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+      }
+
+      /* Estilos para a segunda parte da coluna 2 (7 linhas) */
+      .col2-part2 {
+        grid-column: span 3; /* A segunda parte da coluna 2 ocupa uma fração do espaço disponível */
+        grid-row: span 8; /* A segunda parte da coluna 2 terá 7 linhas */
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* Cor de fundo para a segunda parte da coluna 2 */
+      }
+
+      .col3 {
+        grid-column: span 1; /* Cada coluna ocupa uma fração do espaço disponível */
+        grid-row: span 1; /* Cada coluna terá 9 linhas */
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* Cor de fundo para as colunas 1 e 2 */
+      }
+
+      .image1 {
+        width: 40%;
+        height: 100px;
+        margin-top: 25px;
+      }
+
+      .image2 {
+        width: 40%;
+        height: 100px;
+        margin-top: 25px;
+      }
+
+      .content {
+        padding: 20px;
+        text-align: center;
+        font-family: "Roboto Slab";
+      }
+
+      #question {
+        text-align: left;
+      }
+
+      .btn {
+        margin-top: 20px;
+        background-color: rgba(12, 161, 230, 0.733);
+        border-radius: 20px;
+      }
+
+      .question1,
+      .question2,
+      .question3,
+      .question4,
+      .question5,
+      .question6,
+      .question7,
+      .question8 {
+        background-image: url("../images/banner\ 1.png");
+        z-index: -1
+      }
+
+      /* Estilos CSS para a segunda pergunta */
+      .question9,
+      .question10,
+      .question11,
+      .question12,
+      .question13,
+      .question14,
+      .question15,
+      .question16 {
+        background-image: url("../images/banner\ 2.png");
+        /* Outros estilos específicos para a primeira pergunta */
+      }
+
+      .question17,
+      .question18,
+      .question19,
+      .question20,
+      .question21,
+      .question22,
+      .question23,
+      .question24 {
+        background-image: url("../images/banner\ 3.png");
+        /* Outros estilos específicos para a primeira pergunta */
+      }
+
+      .question25,
+      .question26,
+      .question27,
+      .question28,
+      .question29,
+      .question30 {
+        background-image: url("../images/banner\ 4.png");
+        
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="col1">
+        <div class="content">
+          <img class="image1" id="jogador1" src="jogador1" />
+          <h3 id="name1"></h3>
+        </div>
+      </div>
+      <div class="col2-part1">
+        <div class="content">
+          <div id="player11">
+            <h1>Player 1: <span id="p1Score">0</span></h1>
+          </div>
+          <h1>X</h1>
+          <div id="player21">
+            <h1>Player 2: <span id="p2Score">0</span></h1>
+          </div>
+        </div>
+      </div>
+      <div class="col3">
+        <div class="content">
+          <img class="image2" id="jogador2" src="jogador2" />
+          <h3 id="name2"></h3>
+        </div>
+      </div>
+      <div class="col2-part2">
+        <div class="content">
+          <div id="question">
+            <h2>Pergunta</h2>
+            <p id="questionText"></p>
+            <form id="answerForm">
+              <label>
+                <input type="radio" name="answer" value="a" />
+                <span id="optionA"></span> </label
+              ><br />
+              <label>
+                <input type="radio" name="answer" value="b" />
+                <span id="optionB"></span> </label
+              ><br />
+              <label>
+                <input type="radio" name="answer" value="c" />
+                <span id="optionC"></span> </label
+              ><br />
+              <label>
+                <input type="radio" name="answer" value="d" />
+                <span id="optionD"></span> </label
+              ><br />
+              <button class="btn" type="submit">Continuar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var playerDataString = localStorage.getItem("playerData");
+
+      // Verifique se a variável playerDataString não está vazia
+      if (playerDataString) {
+        var playerData = JSON.parse(playerDataString);
+
+        // Agora você pode acessar os dados dos jogadores da seguinte forma:
+        var player1 = playerData.player1;
+        var player2 = playerData.player2;
+
+        // Acesse as informações do jogador 1 e jogador 2
+        var avatar1 = player1.avatar;
+        var name1 = player1.name;
+
+        var avatar2 = player2.avatar;
+        var name2 = player2.name;
+
+        // Faça o que quiser com esses dados na página "game.html"
+      } else {
+        // Lidar com a situação em que os dados não foram encontrados no localStorage
+        console.log("Dados dos jogadores não encontrados.");
+      }
+
+      const questions = [
+        {
+          text: "Qual é o termo para o óvulo fertilizado após a implantação no útero?",
+          class: "question1",
+          options: {
+            a: "Zigoto",
+            b: "Embrião",
+            c: "Feto",
+            d: "Blastocisto",
+          },
+          answer: "b",
+        },
+        {
+          text: "Quanto tempo dura uma gravidez típica, em média?",
+          class: "question2",
+          options: {
+            a: "3 meses",
+            b: "6 meses",
+            c: "9 meses",
+            d: "12 meses",
+          },
+          answer: "c",
+        },
+        {
+          text: "O que é o cordão umbilical?",
+          class: "question3",
+          options: {
+            a: "Um tipo de cinto utilizado pelas grávidas",
+            b: "Uma parte do cérebro do bebê",
+            c: "Uma estrutura que conecta o bebê à placenta",
+            d: "Um instrumento usado para medir a pressão arterial durante a gravidez",
+          },
+          answer: "c",
+        },
+        {
+          text: "Qual é a principal função do cordão umbilical durante a gravidez?",
+          class: "question4",
+          options: {
+            a: "Alimentar o bebê com comida sólida",
+            b: "Transportar oxigênio e nutrientes da mãe para o bebê",
+            c: "Permitir que o bebê respire dentro do útero",
+            d: "Protege o bebê de bactérias",
+          },
+          answer: "b",
+        },
+        {
+          text: "O que é a placenta durante a gravidez?",
+          class: "question5",
+          options: {
+            a: "Um órgão que ajuda a mãe a respirar",
+            b: "Um dispositivo médico usado para monitorar o bebê",
+            c: "Uma estrutura que liga o bebê à mãe por um cabo",
+            d: "Um órgão temporário que fornece oxigênio e nutrientes ao bebê e remove resíduos",
+          },
+          answer: "d",
+        },
+        {
+          text: "Durante a gravidez, em que órgão o bebê se desenvolve e cresce?",
+          class: "question6",
+          options: {
+            a: "Pulmões",
+            b: "Estômago",
+            c: "Útero",
+            d: "Figado",
+          },
+          answer: "c",
+        },
+        {
+          text: "O que é o parto prematuro?",
+          class: "question7",
+          options: {
+            a: "Quando o bebê nasce antes do tempo esperado, antes das 20 semanas de gestação",
+            b: "Quando o bebê nasce antes de completar 42 semanas de gestação",
+            c: "Quando o bebê nasce dentro do período esperado, entre 37 e 42 semanas de gestação",
+            d: "Quando o bebê nasce após completar 10 meses de gestação",
+          },
+          answer: "b",
+        },
+        {
+          text: "O que é o ultrassom durante a gravidez?",
+          class: "question8",
+          options: {
+            a: "Um dispositivo para medir a pressão arterial da mãe",
+            b: "Um exame de imagem que permite ver o bebê dentro do útero",
+            c: "Uma máquina usada para contar os movimentos do bebê",
+            d: "Um teste de alergia realizado na mãe durante a gravidez",
+          },
+          answer: "b",
+        },
+        {
+          text: "Quais das seguintes ISTs são causadas por um vírus e podem causar verrugas genitais e câncer cervical em mulheres?",
+          class: "question9",
+          options: {
+            a: "Clamídia",
+            b: "Sífilis",
+            c: "Herpes genital",
+            d: "Gonorreia",
+          },
+          answer: "c",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question10",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question11",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question12",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question13",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question14",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question15",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question16",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question17",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question18",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question19",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question20",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question21",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question22",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question23",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question24",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question25",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question26",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question27",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question28",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question29",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+        {
+          text: "Qual é uma das principais barreiras que a população LGBT pode enfrentar ao buscar cuidados de saúde sexual?",
+          class: "question 30",
+          options: {
+            a: "Disponibilidade abundante de profissionais de saúde sensíveis à diversidade.",
+            b: "Falta de confidencialidade e medo de discriminação.",
+            c: "Acesso fácil e gratuito a todos os serviços de saúde.",
+            d: "Acesso igualitário a todos os métodos contraceptivos.",
+          },
+          answer: "b",
+        },
+      ];
+
+      let currentPlayer = 1;
+      let p1Score = 0;
+      let p2Score = 0;
+      let currentQuestionIndex = 0;
+
+      const p1ScoreElement = document.getElementById("p1Score");
+      const p2ScoreElement = document.getElementById("p2Score");
+      const questionTextElement = document.getElementById("questionText");
+      const optionAElement = document.getElementById("optionA");
+      const optionBElement = document.getElementById("optionB");
+      const optionCElement = document.getElementById("optionC");
+      const optionDElement = document.getElementById("optionD");
+      const answerForm = document.getElementById("answerForm");
+
+      function updateQuestion() {
+        if (currentQuestionIndex < questions.length) {
+          const question = questions[currentQuestionIndex];
+          questionTextElement.textContent = question.text;
+          optionAElement.textContent = question.options.a;
+          optionBElement.textContent = question.options.b;
+          optionCElement.textContent = question.options.c;
+          optionDElement.textContent = question.options.d;
+          answerForm.answer.value = "";
+        } else {
+          endGame();
+        }
+      }
+
+      function endGame() {
+        if (p1Score > p2Score) {
+          alert("Jogador 1 venceu!");
+        } else if (p2Score > p1Score) {
+          alert("Jogador 2 venceu!");
+        } else {
+          alert("Empate!");
+        }
+      }
+
+      updateQuestion();
+
+      answerForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const selectedAnswer = answerForm.answer.value;
+        const question = questions[currentQuestionIndex];
+
+        if (selectedAnswer === question.answer) {
+          if (currentPlayer === 1) {
+            p1Score++;
+            p1ScoreElement.textContent = p1Score;
+          } else {
+            p2Score++;
+            p2ScoreElement.textContent = p2Score;
+          }
+        }
+
+        currentPlayer = currentPlayer === 1 ? 2 : 1;
+        currentQuestionIndex++;
+        updateQuestion();
+      });
+
+      function buscarNoLocalStorage(chave) {
+        try {
+          const item = localStorage.getItem(chave);
+          console.log(item);
+          return item;
+        } catch (e) {
+          console.error("Erro ao buscar no localStorage:", e);
+        }
+      }
+
+      const player1Data = {
+        name: "Jogador 1",
+        image: "player1_image.png", // Defina o caminho da imagem do jogador 1
+      };
+
+      const player2Data = {
+        name: "Jogador 2",
+        image: "player2_image.png", // Defina o caminho da imagem do jogador 2
+      };
+
+      // Armazenar os objetos "player1" e "player2" no localStorage
+      localStorage.setItem("player1", JSON.stringify(player1Data));
+      localStorage.setItem("player2", JSON.stringify(player2Data));
+
+      const player1image = document.getElementById("image1");
+      player1image.src = `./images/${
+        JSON.parse(buscarNoLocalStorage("player1")).image
+      }.png`;
+      const player2image = document.getElementById("image2");
+      player2image.src = `./images/${
+        JSON.parse(buscarNoLocalStorage("player2")).image
+      }.png`;
+      const player1Name = document.getElementById("player11");
+      player1Name.innerText = JSON.parse(buscarNoLocalStorage("player1")).name;
+      const player2Name = document.getElementById("player21");
+      player2Name.innerText = JSON.parse(buscarNoLocalStorage("player2")).name;
+      console.log(buscarNoLocalStorage("player1"));
+      console.log(buscarNoLocalStorage("player2"));
+      console.log(buscarNoLocalStorage("image1"));
+      console.log(buscarNoLocalStorage("image2"));
+    </script>
+  </body>
+</html>
