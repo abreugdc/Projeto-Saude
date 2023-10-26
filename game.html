@@ -158,11 +158,11 @@
       </div>
       <div class="col2-part1">
         <div class="content">
-          <div id="player11">
+          <div>
             <h1>Player 1: <span id="p1Score">0</span></h1>
           </div>
           <h1>X</h1>
-          <div id="player21">
+          <div>
             <h1>Player 2: <span id="p2Score">0</span></h1>
           </div>
         </div>
@@ -205,24 +205,14 @@
     <script>
       var playerDataString = localStorage.getItem("playerData");
 
-      // Verifique se a variável playerDataString não está vazia
       if (playerDataString) {
         var playerData = JSON.parse(playerDataString);
-
-        // Agora você pode acessar os dados dos jogadores da seguinte forma:
         var player1 = playerData.player1;
         var player2 = playerData.player2;
-
-        // Acesse as informações do jogador 1 e jogador 2
-        var avatar1 = player1.avatar;
         var name1 = player1.name;
-
-        var avatar2 = player2.avatar;
         var name2 = player2.name;
 
-        // Faça o que quiser com esses dados na página "game.html"
       } else {
-        // Lidar com a situação em que os dados não foram encontrados no localStorage
         console.log("Dados dos jogadores não encontrados.");
       }
 
@@ -640,7 +630,6 @@
         image: "player2_image.png", // Defina o caminho da imagem do jogador 2
       };
 
-      // Armazenar os objetos "player1" e "player2" no localStorage
       localStorage.setItem("player1", JSON.stringify(player1Data));
       localStorage.setItem("player2", JSON.stringify(player2Data));
 
@@ -652,9 +641,9 @@
       player2image.src = `./images/${
         JSON.parse(buscarNoLocalStorage("player2")).image
       }.png`;
-      const player1Name = document.getElementById("player11");
+      const player1Name = document.getElementById("player1");
       player1Name.innerText = JSON.parse(buscarNoLocalStorage("player1")).name;
-      const player2Name = document.getElementById("player21");
+      const player2Name = document.getElementById("player2");
       player2Name.innerText = JSON.parse(buscarNoLocalStorage("player2")).name;
       console.log(buscarNoLocalStorage("player1"));
       console.log(buscarNoLocalStorage("player2"));
