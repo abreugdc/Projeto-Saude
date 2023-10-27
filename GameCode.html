@@ -112,7 +112,7 @@
         z-index: -1
       }
 
-      /* Estilos CSS para a segunda pergunta */
+      
       .question9,
       .question10,
       .question11,
@@ -152,7 +152,7 @@
     <div class="grid">
       <div class="col1">
         <div class="content">
-          <img class="image1" id="jogador1" src="jogador1" />
+          <img class="image1" id="jogador1"></img>
           <h3 id="name1"></h3>
         </div>
       </div>
@@ -169,7 +169,7 @@
       </div>
       <div class="col3">
         <div class="content">
-          <img class="image2" id="jogador2" src="jogador2" />
+          <img class="image2" id="jogador2"/></img>
           <h3 id="name2"></h3>
         </div>
       </div>
@@ -203,18 +203,56 @@
     </div>
 
     <script>
-      var playerDataString = localStorage.getItem("playerData");
+      
+      var playerOneString = localStorage.getItem("player1");
+      var playerTwoString = localStorage.getItem("player2");
+      
+      var imageLinks = [ 
+      {id: "image1", url: "../images/Avatar\ 1\ BABI.png"},
+      {id: "image2", url: ""},
+      {id: "image3", url: ""},
+      {id: "image4", url: ""},
+      {id: "image5", url: ""},
+      {id: "image6", url: ""},
+      {id: "image7", url: ""},
+      {id: "image8", url: ""},
+      {id: "image9", url: ""},
+      {id: "image10", url: ""},
+      {id: "image11", url: ""},
+      {id: "image12", url: ""},
+      ]
 
-      if (playerDataString) {
-        var playerData = JSON.parse(playerDataString);
-        var player1 = playerData.player1;
-        var player2 = playerData.player2;
-        var name1 = player1.name;
-        var name2 = player2.name;
+
+       if (playerOneString && playerTwoString) {
+         var playerOneData = JSON.parse(playerOneString);
+         var playerTwoData = JSON.parse(playerTwoString);
+         var name1 = document.getElementById("name1");
+         var name2 = document.getElementById("name2");
+         name1.innerHTML = playerOneData.playerName;
+         name2.innerHTML = playerTwoData.playerName;
+        
+                
+         var playerOneImageURL = localStorage.getItem("player1ImageURL")
+         var playerOneImageURL = localStorage.getItem("player2ImageURL")
+        
+        
+         var playerImage1 = document.getElementById("jogador1");
+         var playerImage2 = document.getElementById("jogador2");
+
+       // playerImage1.style = imageLinks.find((image) => image.id === playerOneData.image);
+       // console.log(playerImage1);
+        
+       // var playerImage1 = {
+       //   ...playerImage1, 
+       //   style: imageLinks.find((image) => image.id === playerOneData.image).url
+       // };
+
 
       } else {
         console.log("Dados dos jogadores não encontrados.");
       }
+
+      
 
       const questions = [
         {
@@ -620,18 +658,6 @@
         }
       }
 
-      const player1Data = {
-        name: "Jogador 1",
-        image: "player1_image.png", // Defina o caminho da imagem do jogador 1
-      };
-
-      const player2Data = {
-        name: "Jogador 2",
-        image: "player2_image.png", // Defina o caminho da imagem do jogador 2
-      };
-
-      localStorage.setItem("player1", JSON.stringify(player1Data));
-      localStorage.setItem("player2", JSON.stringify(player2Data));
 
       const player1image = document.getElementById("image1");
       player1image.src = `./images/${
